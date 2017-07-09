@@ -1,0 +1,10 @@
+{
+  "name": "Ghost",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Matthew Linkous <matthew.linkous@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "trie": "^0.2.1"
+  }
+}
