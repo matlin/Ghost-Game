@@ -59,7 +59,7 @@ class Ghost {
     let isValid = this.isLetter(letter);
     if (isValid && !this.gameOver) {
       this.prefix += letter;
-      if (!this.words.isValidPrefix(this.prefix + letter) || (this.prefix.length > 4 && this.words.isWord(this.prefix))){
+      if (this.prefix.length > 4 && (!this.words.isValidPrefix(this.prefix) || this.words.isWord(this.prefix))){
           this.gameOver = true;
       }
       return true;

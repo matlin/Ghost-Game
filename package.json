@@ -2,6 +2,7 @@
   "name": "Ghost",
   "version": "1.0.0",
   "main": "ghost.js",
+  "description": "A package for using and playing a the game of Ghost against an intelligent computer",
   "author": "Matthew Linkous <matthew.linkous@gmail.com>",
   "license": "MIT",
   "dependencies": {}
