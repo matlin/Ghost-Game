@@ -1,7 +1,7 @@
 {
   "name": "Ghost",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "ghost.js",
   "author": "Matthew Linkous <matthew.linkous@gmail.com>",
   "license": "MIT",
   "dependencies": {}

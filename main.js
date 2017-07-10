@@ -15,7 +15,8 @@ var rl = readline.createInterface({
 });
 
 /* Start game */
-const ghost = new Ghost(words);
+let cheatsOn = process.env.CHEAT && process.env.CHEAT.toLowerCase() === "true";
+const ghost = new Ghost(words, cheatsOn);
 let game = ghost.game();
 game.next();
 /* allow interacting with game */
