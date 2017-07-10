@@ -35,7 +35,7 @@ class Ghost {
                 "Possible winning moves (careful some have prefixes that may cause you to lose): ",
                 this.words
                   .matchingWords(this.prefix)
-                  .filter(x => x.length > 4 && x.length % 2 === 0)
+                  .filter(x => x.length >= 4 && x.length % 2 === 0)
               );
             }
             console.log(
@@ -59,7 +59,7 @@ class Ghost {
     let isValid = this.isLetter(letter);
     if (isValid && !this.gameOver) {
       this.prefix += letter;
-      if (this.prefix.length > 4 && (!this.words.isValidPrefix(this.prefix) || this.words.isWord(this.prefix))){
+      if (this.prefix.length >= 4 && (!this.words.isValidPrefix(this.prefix) || this.words.isWord(this.prefix))){
           this.gameOver = true;
       }
       return true;
@@ -84,7 +84,7 @@ class Ghost {
     }
     function getEvenReducer(acc, curr) {
       if (curr.length > longest.length) longest = curr;
-      if (curr.length % 2 === 0 && curr.length > 4) return acc.concat(curr);
+      if (curr.length % 2 === 0 && curr.length >= 4) return acc.concat(curr);
       return acc;
     }
   }
