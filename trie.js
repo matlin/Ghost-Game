@@ -24,9 +24,11 @@ class Trie {
     }
   }
 
-  getPrefixNode(str, root=this.root){
-    if (str.length === 0){return root;}
-    if (root.children[str[0]]){
+  getPrefixNode(str, root = this.root) {
+    if (str.length === 0) {
+      return root;
+    }
+    if (root.children[str[0]]) {
       return this.getPrefixNode(str.slice(1), root.children[str[0]]);
     }
     return null;
@@ -69,8 +71,10 @@ class Trie {
     }
   }
 
-  getLongestUniqueWord(root=this.root, prefix=""){
-    if (root.isWord){return (prefix + root.letter)}
+  getLongestUniqueWord(root = this.root, prefix = "") {
+    if (root.isWord) {
+      return prefix + root.letter;
+    }
     return Object.values(root.children).reduce((longest, node) => {
       let bestChild = this.getLongestUniqueWord(node, prefix + root.letter);
       return bestChild.length > longest.length ? bestChild : longest;

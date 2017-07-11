@@ -17,7 +17,9 @@ class Ghost {
     let letter = null;
     console.log("You go first. Enter a letter to start the game!");
     while (!this.gameOver) {
-      if (this.cheatMode) {console.log("You should play: " + this.bestChoice())};
+      if (this.cheatMode) {
+        console.log("You should play: " + this.bestChoice());
+      }
       letter = yield input;
       if (letter.toLowerCase() === "quit") {
         this.gameOver = true;
@@ -49,9 +51,9 @@ class Ghost {
       }
     }
     if (this.playerTurn !== true) {
-      if (this.words.isWord(this.prefix)){
+      if (this.words.isWord(this.prefix)) {
         console.log(`You spelled the word "${this.prefix}"`);
-      }else{
+      } else {
         console.log(`"${this.prefix} is not a prefix to a word.`);
       }
       console.log(`Sorry, the computer won...`);
@@ -65,8 +67,12 @@ class Ghost {
     let isValid = this.isLetter(letter);
     if (isValid && !this.gameOver) {
       this.prefix += letter;
-      if (this.prefix.length >= 4 && (!this.words.isValidPrefix(this.prefix) || this.words.isWord(this.prefix))){
-          this.gameOver = true;
+      if (
+        this.prefix.length >= 4 &&
+        (!this.words.isValidPrefix(this.prefix) ||
+          this.words.isWord(this.prefix))
+      ) {
+        this.gameOver = true;
       }
       return true;
     } else {
@@ -74,26 +80,34 @@ class Ghost {
     }
   }
 
-  bestChoice(){
+  bestChoice() {
     let bestChance = 0;
     let options = {};
     let currNode = this.words.getPrefixNode(this.prefix);
-    for (let char in currNode.children){
-      options[char] = this.words.getWinningPercentage(currNode.children[char], true);
+    for (let char in currNode.children) {
+      options[char] = this.words.getWinningPercentage(
+        currNode.children[char],
+        true
+      );
       if (options[char] > bestChance) bestChance = options[char];
     }
-    const bestOptions = Object.entries(options).filter(([char, score]) => score === bestChance);
-    if {this.cheatMode && this.playerTurn) {console.log(options)};
-    if (bestOptions.length > 0){
+    const bestOptions = Object.entries(options).filter(
+      ([char, score]) => score === bestChance
+    );
+    if (this.cheatMode && this.playerTurn) {
+      console.log(options);
+    }
+    if (bestOptions.length > 0) {
       /*if (bestChance === 0){
         const longestWord = this.words.getLongestUniqueWord(currNode, this.prefix.slice(0,-1));
         console.log("longest word: " + longestWord);
         const letter = longestWord[[this.prefix.length]]
         return letter;
       }*/
-      const letter = bestOptions[Math.floor(Math.random() * bestOptions.length)][0];
+      const letter =
+        bestOptions[Math.floor(Math.random() * bestOptions.length)][0];
       return letter;
-    }else{
+    } else {
       return null;
     }
   }
