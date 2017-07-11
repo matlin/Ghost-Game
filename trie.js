@@ -24,6 +24,14 @@ class Trie {
     }
   }
 
+  getPrefixNode(str, root=this.root){
+    if (str.length === 0){return root;}
+    if (root.children[str[0]]){
+      return this.getPrefixNode(str.slice(1), root.children[str[0]]);
+    }
+    return null;
+  }
+
   matchingWords(str, root = this.root, prefix = "", acc = []) {
     if (str.length === 0) {
       let newEntry = root.isWord ? [prefix] : [];
@@ -41,6 +49,32 @@ class Trie {
         );
       return [];
     }
+  }
+
+  getWinningPercentage(root = this.root, turn) {
+    //base case
+    if (root.isWord) {
+      return !turn ? 1 : 0; //who won at that letter
+    }
+    const children = Object.keys(root.children).map(letter =>
+      this.getWinningPercentage(root.children[letter], !turn)
+    );
+    if (!turn) {
+      //next choice is yours so make best choice
+      return Math.max(...children);
+    } else {
+      //next choice is theirs so average percentage chance of winning
+      return children.reduce((acc, curr) => acc + curr) / children.length;
+      //return Math.min(...children); //if you were playing against optimized player
+    }
+  }
+
+  getLongestUniqueWord(root=this.root, prefix=""){
+    if (root.isWord){return (prefix + root.letter)}
+    return Object.values(root.children).reduce((longest, node) => {
+      let bestChild = this.getLongestUniqueWord(node, prefix + root.letter);
+      return bestChild.length > longest.length ? bestChild : longest;
+    }, "");
   }
 
   isValidPrefix(str, root = this.root) {

@@ -17,6 +17,7 @@ class Ghost {
     let letter = null;
     console.log("You go first. Enter a letter to start the game!");
     while (!this.gameOver) {
+      console.log("You should play: " + this.bestChoice());
       letter = yield input;
       if (letter.toLowerCase() === "quit") {
         this.gameOver = true;
@@ -47,12 +48,17 @@ class Ghost {
         console.log(`"${letter}" is not a valid play. Try again.`);
       }
     }
-    console.log("Game over");
     if (this.playerTurn !== true) {
+      if (this.words.isWord(this.prefix)){
+        console.log(`You spelled the word "${this.prefix}"`);
+      }else{
+        console.log(`"${this.prefix} is not a prefix to a word.`);
+      }
       console.log(`Sorry, the computer won...`);
     } else {
       console.log("Congrats! You won!");
     }
+    console.log("Game over.");
   }
 
   play(letter) {
@@ -68,15 +74,51 @@ class Ghost {
     }
   }
 
+  bestChoice(){
+    let bestChance = 0;
+    let options = {};
+    let currNode = this.words.getPrefixNode(this.prefix);
+    for (let char in currNode.children){
+      options[char] = this.words.getWinningPercentage(currNode.children[char], true);
+      if (options[char] > bestChance) bestChance = options[char];
+    }
+    const bestOptions = Object.entries(options).filter(([char, score]) => score === bestChance);
+    console.log(options);
+    if (bestOptions.length > 0){
+      /*if (bestChance === 0){
+        const longestWord = this.words.getLongestUniqueWord(currNode, this.prefix.slice(0,-1));
+        console.log("longest word: " + longestWord);
+        const letter = longestWord[[this.prefix.length]]
+        return letter;
+      }*/
+      const letter = bestOptions[Math.floor(Math.random() * bestOptions.length)][0];
+      return letter;
+    }else{
+      return null;
+    }
+  }
+
   computerPlay(prefix) {
     var longest = "";
-    const possibleWins = this.words
+    /*const possibleWins = this.words
       .matchingWords(prefix)
       .reduce(getEvenReducer, []);
-    const choice = possibleWins.length > 0
+      let bestChance = 0;
+      let options = {};
+      let currNode = this.words.getPrefixNode(this.prefix);
+      for (let char in currNode.children){
+        options[char] = this.words.getWinningPercentage(currNode.children[char], true);
+        if (options[char] > bestChance) bestChance = options[char];
+      }
+      console.log(options);
+      const bestOptions = Object.entries(options).filter(([char, score]) => score === bestChance);
+      const letter = bestOptions[Math.floor(Math.random() * bestOptions.length)][0];*/
+    /*const choice = possibleWins.length > 0
       ? possibleWins[Math.floor(Math.random() * possibleWins.length)]
       : longest;
-    let letter = choice[prefix.length];
+    if (this.cheatMode) {console.log(`Computer is thinking of "${choice}"`)}
+    let letter = choice[prefix.length];*/
+    const letter = this.bestChoice();
     if (this.play(letter)) {
       return letter;
     } else {
@@ -84,7 +126,7 @@ class Ghost {
     }
     function getEvenReducer(acc, curr) {
       if (curr.length > longest.length) longest = curr;
-      if (curr.length % 2 === 0 && curr.length >= 4) return acc.concat(curr);
+      if (curr.length % 2 === 1 && curr.length >= 4) return acc.concat(curr);
       return acc;
     }
   }

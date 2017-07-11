@@ -4,7 +4,7 @@ var readline = require("readline");
 
 /* Load word list */
 console.log("Loading word dictionary...");
-const words = fs.readFileSync("word_list.txt", "utf8").split(/\s/);
+const words = fs.readFileSync("word_list.txt", "utf8").split(/\s/).filter(word => word.length >= 4);
 console.log("Loaded " + words.length + " words.");
 
 /* Prepare console input */
