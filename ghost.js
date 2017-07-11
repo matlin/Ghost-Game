@@ -17,7 +17,7 @@ class Ghost {
     let letter = null;
     console.log("You go first. Enter a letter to start the game!");
     while (!this.gameOver) {
-      console.log("You should play: " + this.bestChoice());
+      if (this.cheatMode) {console.log("You should play: " + this.bestChoice())};
       letter = yield input;
       if (letter.toLowerCase() === "quit") {
         this.gameOver = true;
@@ -83,7 +83,7 @@ class Ghost {
       if (options[char] > bestChance) bestChance = options[char];
     }
     const bestOptions = Object.entries(options).filter(([char, score]) => score === bestChance);
-    console.log(options);
+    if {this.cheatMode && this.playerTurn) {console.log(options)};
     if (bestOptions.length > 0){
       /*if (bestChance === 0){
         const longestWord = this.words.getLongestUniqueWord(currNode, this.prefix.slice(0,-1));
